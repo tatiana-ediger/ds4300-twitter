@@ -24,7 +24,7 @@ public class RedisTwitterAPITest {
     rta.addFollower(4, 1);
 
     Tweet tweet1 = new Tweet(1, 2, new Date(43854), "tweet");
-    Tweet tweet2 = new Tweet(2, 2, new Date(86486), "tweet2");
+    Tweet tweet2 = new Tweet(2, 2, new Date(45453), "348543843854358");
     Tweet tweet3 = new Tweet(3, 3, new Date(54364), "tweet3");
     Tweet tweet4 = new Tweet(4, 3, new Date(44563), "tweet4");
     Tweet tweet5 = new Tweet(5, 3, new Date(52346), "tweet5");
@@ -55,7 +55,9 @@ public class RedisTwitterAPITest {
     rta.postTweet(tweet2, false);
 
     assertEquals(tweet1, tweet1);
+    System.out.println(rta.getUsersTweets(2));
     assertEquals(user2tweets.toString(), rta.getUsersTweets(2).toString());
+
 
     rta.postTweet(tweet3, false);
     rta.postTweet(tweet4, false);
@@ -89,9 +91,9 @@ public class RedisTwitterAPITest {
     user4tweets.add(tweet13);
 
     // The following assertEquals works, but in different orders
-    // assertEquals(user4tweets.toString(), rta.getUsersTweets(4).toString());
+//     assertEquals(user4tweets.toString(), rta.getUsersTweets(4).toString());
 
-    //System.out.println(rta.getTimeline(1, false));
+    System.out.println(rta.getTimeline(1, false));
 
     rta.clear();
   }

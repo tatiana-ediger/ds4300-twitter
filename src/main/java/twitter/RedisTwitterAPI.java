@@ -26,7 +26,7 @@ public class RedisTwitterAPI implements TwitterAPI {
   }
 
   /**
-   * Posts the tweet by adding it to t's userID's userTweets, and if broadcast=true, adds it to the
+   * Posts the tweet by adding the 10 most recent tweets to t's userID's userTweets, and if broadcast=true, immediately adds them to the
    * userTimeline of all the individuals follower's
    *
    * @param t         the given tweet
@@ -38,7 +38,7 @@ public class RedisTwitterAPI implements TwitterAPI {
     t.setTweetID(next);
     jedis.set("tweet:" + next, t.toString());
     int tweetsUser = t.getUserID();
-    jedis.sadd("usertweets:" + tweetsUser, String.valueOf(next));
+    jedis.zadd("usertweets:" + tweetsUser, t.getTimeStamp().getTime(), String.valueOf(next));
 
     if (broadcast == true) {
       Set<Integer> userFollowers = this.getFollowers(t.getUserID());
@@ -85,7 +85,7 @@ public class RedisTwitterAPI implements TwitterAPI {
 
   @Override
   public List<Tweet> getUsersTweets(int userID) {
-    Set<String> tweetIDSet = jedis.smembers("usertweets:" + userID);
+    Set<String> tweetIDSet = jedis.zrange("usertweets:" + userID, 0, 10);
     Set<String> tset = new HashSet<>();
     for (String tweet : tweetIDSet) {
       tset.add(jedis.get("tweet:" + tweet));
@@ -126,7 +126,7 @@ public class RedisTwitterAPI implements TwitterAPI {
       String[] result = t.split(":");
       int tweet_id = Integer.parseInt(result[0]);
       int user_id = Integer.parseInt(result[1]);
-      Date date = new Date(Integer.parseInt(result[2]));
+      Date date = new Date(Long.parseLong(result[2]));
       String contents = result[3];
       tweets.add(new Tweet(tweet_id, user_id, date, contents));
     }

@@ -1,5 +1,6 @@
 package twitter;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -9,18 +10,17 @@ import java.util.Random;
 public class CountTimelineReturns {
 
 
-  public int countTimelineRetrievals(TwitterAPI api, boolean broadcast) {
+  public double countTimelineRetrievals(TwitterAPI api, boolean broadcast) {
 
     Random rand = new Random();
-    int userID = rand.nextInt(10000);
     int count = 0;
     long t = System.currentTimeMillis();
     long end = t + 5000;
     while (System.currentTimeMillis() < end) {
+      int userID = rand.nextInt(10000);
       api.getTimeline(userID, broadcast);
       count += 1;
     }
-
-    return count / 5;
+    return count / 5.0;
   }
 }

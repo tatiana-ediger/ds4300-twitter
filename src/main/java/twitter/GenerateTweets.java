@@ -63,7 +63,7 @@ public class GenerateTweets {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
       Date date = this.getRandomDate();
       String strDate = sdf.format(date);
-      String text = this.getRandomString(141);
+      String text = this.getRandomString(140) + 's';
       String line[] = {Integer.toString(user), strDate, text};
       // writing data to the csv file
       writer.writeNext(line);

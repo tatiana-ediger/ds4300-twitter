@@ -32,40 +32,45 @@ public class TwitterTester {
    */
   public static void main(String[] args) throws IOException, ParseException {
 
-    api.connect("jdbc:mysql://localhost:3306/twitter?serverTimezone=EST5EDT", "root",
-        "root_pass"); // mysql connection settings
-    api.clear();
-    rta.clear();
+//    api.connect("jdbc:mysql://localhost:3306/twitter?serverTimezone=EST5EDT", "root",
+//        "root_pass"); // mysql connection settings
+//    api.clear();
+//    rta.clear();
 
-    // This was the code I used to generate the users and their followers, but I commented it out
-    // because I only wanted to run it once:
-    // LoadsUsers loadsUsers = new LoadsUsers(api);
-    // loadsUsers.loadUsers();
+    // This was the code I used to generate the users and their followers:
+    LoadsUsers loadsUsers = new LoadsUsers(rta);
+    loadsUsers.loadUsers();
+//    LoadsUsers loadsUsers2 = new LoadsUsers(rta);
+//    loadsUsers2.loadUsers();
 
-    // Generates the tweet-table with 1 million tweets
-    GenerateTweets rg = new GenerateTweets();
-    rg.createUserCSV(1000000, "test-tweet-table.csv");
+
+//     Generates the tweet-table with 1 million tweets
+//    GenerateTweets rg = new GenerateTweets();
+//    rg.createUserCSV(1000000, "test-tweet-table.csv");
 
     TimePostTweets tpt = new TimePostTweets();
     CountTimelineReturns ctr = new CountTimelineReturns();
 
-    // Timing tweet posts:
-    System.out.println("Seconds to post 1000000 tweets using SQL: "
-        + tpt.timePostTweets(api, false));
-    System.out.println("Number of timelines retrieved per second using SQL: "
-        + ctr.countTimelineRetrievals(api, false));
 
-    System.out.println("Seconds to post 1000000 tweets using Redis without broadcasting: "
-        + tpt.timePostTweets(rta, false));
-    System.out.println("Number of timelines retrieved per second using Redis without broadcasting: "
-        + ctr.countTimelineRetrievals(rta, false));
+    // Timing tweet posts:
+//    System.out.println("Seconds to post 1000000 tweets using SQL: "
+//        + tpt.timePostTweets(api, false));
+//    System.out.println("Number of timelines retrieved per second using SQL: "
+//        + ctr.countTimelineRetrievals(api, false));
+
+//    System.out.println("Seconds to post 1000000 tweets using Redis without broadcasting: "
+//        + tpt.timePostTweets(rta, false));
+//    System.out.println("Number of timelines retrieved per second using Redis without broadcasting: "
+//        + ctr.countTimelineRetrievals(rta, false));
 
     System.out.println("Seconds to post 1000000 tweets using Redis with broadcasting: "
         + tpt.timePostTweets(rta, true));
     System.out.println("Number of timelines retrieved per second using Redis with broadcasting: "
         + ctr.countTimelineRetrievals(rta, true));
 
-    api.close();
+
+
+//    api.close();
   }
 }
 
